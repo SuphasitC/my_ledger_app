@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:my_ledger_app/presentation/add_pocket.dart';
+import 'package:my_ledger_app/presentation/interface.dart';
+import 'package:my_ledger_app/presentation/my_pocket.dart';
+import 'package:my_ledger_app/my_pocket_class.dart';
+import 'package:my_ledger_app/config/routes.dart';
 
 void main() {
   runApp(MyApp());
@@ -10,54 +15,32 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
+        fontFamily: 'NeutraText',
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      onGenerateRoute: _registerRouteWithParameters,
+      // home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyPocket(),
+      // home: AddPocketPage(),
+      // home: Interface(
+      //   pocketName: 'Em',
+      // ),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
-  final String title;
-  @override
-  _MyHomePageState createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
+Route _registerRouteWithParameters(RouteSettings settings) {
+  Pocket pocket = settings.arguments;
+  if (settings.name == AppRoutes.addPocket) {
+    return MaterialPageRoute(builder: (context) {
+      return AddPocketPage();
     });
   }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: Icon(Icons.add),
-      ),
-    );
+  if (settings.name == AppRoutes.interface) {
+    return MaterialPageRoute(builder: (context) {
+      return Interface(pocket: pocket);
+    });
   }
+  return null;
 }
