@@ -41,7 +41,7 @@ class AddPocketPage extends StatelessWidget {
                   Navigator.of(context).pop();
                 },
                 textColor: Colors.black,
-                padding: const EdgeInsets.all(0.0),
+                padding: const EdgeInsets.all(1.0),
                 child: Container(
                   decoration: const BoxDecoration(
                     color: Colors.green,
