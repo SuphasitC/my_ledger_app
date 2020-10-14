@@ -22,121 +22,135 @@ class _InterfaceState extends State<Interface> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.pocket.currentMoney.toString()),
+        title: Text('Pocket: ' + widget.pocket.name.toString()),
       ),
       body: Center(
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(top: 50.0),
+              padding: EdgeInsets.only(top: 30),
+              child: Text(
+                'Pocket Balance',
+                style: TextStyle(fontSize: 30),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.all(30.0),
               child: Stack(
+                alignment: Alignment.center,
                 children: [
                   Container(
-                    width: 200.0,
-                    height: 200.0,
-                    decoration: new BoxDecoration(
-                      color: Colors.orange,
-                      shape: BoxShape.circle,
+                    width: 400.0,
+                    height: 100.0,
+                    decoration: BoxDecoration(
+                      // border: Border.all(
+                      //   color: Colors.black,
+                      //   width: 3,
+                      // ),
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
+                      color: Colors.orangeAccent,
                     ),
                   ),
-                  Positioned.fill(
-                    child: Align(
-                      alignment: Alignment.center,
-                      child: Container(
-                        width: 180.0,
-                        height: 180.0,
-                        decoration: new BoxDecoration(
-                          color: Colors.orange[400],
-                          shape: BoxShape.circle,
-                        ),
-                      ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      this.pocket.currentMoney.toString() + " Baht",
+                      style: TextStyle(fontSize: 30, color: Colors.black),
                     ),
-                  ),
-                  Positioned.fill(
-                    child: Align(
-                        alignment: Alignment.center,
-                        child: Text(
-                          this.pocket.currentMoney.toString() + " Baht",
-                          style: TextStyle(fontSize: 24, color: Colors.black),
-                        )),
                   ),
                 ],
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(left: 30, right: 30, bottom: 30),
+              child: Container(
+                width: 400,
+                height: 350,
+                alignment: Alignment.center,
+                decoration: BoxDecoration(
+                  // border: Border.all(
+                  //   color: Colors.black,
+                  //   width: 2,
+                  // ),
+                  // borderRadius: BorderRadius.all(Radius.circular(12)),
+                  color: Colors.grey[700],
+                ),
+                child: Text(
+                  'Hello',
+                  style: TextStyle(fontSize: 25, color: Colors.white),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Padding(
-                  padding: EdgeInsets.only(top: 70),
-                  child: RaisedButton(
-                    onPressed: () {},
-                    textColor: Colors.black,
-                    padding: const EdgeInsets.all(0.0),
-                    child: Container(
-                      width: 150,
-                      height: 50,
-                      decoration: const BoxDecoration(
-                        color: Colors.lightGreen,
-                      ),
-                      padding: const EdgeInsets.all(10.0),
-                      child: const Text(
-                        'Income',
-                        style: TextStyle(fontSize: 20),
-                        textAlign: TextAlign.center,
-                      ),
+                RaisedButton(
+                  onPressed: () => {},
+                  textColor: Colors.black,
+                  child: Container(
+                    width: 150,
+                    height: 50,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.lightGreen,
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                    ),
+                    child: Text(
+                      'Income\nExpense',
+                      style: TextStyle(fontSize: 25),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                  padding: EdgeInsets.all(0.0),
+                ),
+                RaisedButton(
+                  onPressed: () {
+                    showDatePicker(
+                        context: context,
+                        initialDate: DateTime.now(),
+                        firstDate: DateTime.utc(1998, DateTime.november, 12),
+                        lastDate: DateTime.utc(2030, DateTime.november, 12));
+                  },
+                  textColor: Colors.black,
+                  padding: EdgeInsets.all(0.0),
+                  child: Container(
+                    width: 150,
+                    height: 50,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: Colors.purple[400],
+                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                    ),
+                    // padding: EdgeInsets.all(10.0),
+                    child: Text(
+                      'Calendar',
+                      style: TextStyle(fontSize: 25),
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 70),
-                  child: RaisedButton(
-                    onPressed: () {},
-                    textColor: Colors.black,
-                    padding: const EdgeInsets.all(0.0),
-                    child: Container(
-                      width: 150,
-                      height: 50,
-                      decoration: const BoxDecoration(
-                        color: Colors.redAccent,
-                      ),
-                      padding: const EdgeInsets.all(10.0),
-                      child: const Text(
-                        'Expense',
-                        style: TextStyle(fontSize: 20),
-                        textAlign: TextAlign.center,
-                      ),
-                    ),
-                  ),
-                ),
+                // RaisedButton(
+                //   onPressed: () => {},
+                //   textColor: Colors.black,
+                //   child: Container(
+                //     width: 150,
+                //     height: 50,
+                //     alignment: Alignment.center,
+                //     decoration: BoxDecoration(
+                //       color: Colors.redAccent,
+                //       borderRadius: BorderRadius.all(Radius.circular(8)),
+                //     ),
+                //     // padding: EdgeInsets.all(10.0),
+                //     child: Text(
+                //       'Expense',
+                //       style: TextStyle(fontSize: 25),
+                //       textAlign: TextAlign.center,
+                //     ),
+                //   ),
+                // ),
               ],
-            ),
-            Padding(
-              padding: EdgeInsets.only(top: 30),
-              child: RaisedButton(
-                onPressed: () {
-                  showDatePicker(
-                      context: context,
-                      initialDate: DateTime.now(),
-                      firstDate: DateTime.utc(1998, DateTime.november, 12),
-                      lastDate: DateTime.utc(2030, DateTime.november, 12));
-                },
-                textColor: Colors.black,
-                padding: const EdgeInsets.all(0.0),
-                child: Container(
-                  width: 336,
-                  height: 50,
-                  decoration: const BoxDecoration(
-                    color: Colors.purple,
-                  ),
-                  padding: const EdgeInsets.all(10.0),
-                  child: const Text(
-                    'Calendar',
-                    style: TextStyle(fontSize: 20),
-                    textAlign: TextAlign.center,
-                  ),
-                ),
-              ),
             ),
           ],
         ),

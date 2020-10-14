@@ -1,114 +1,158 @@
 import 'package:flutter/material.dart';
-import 'package:my_ledger_app/global_storage.dart';
+import 'package:flutter/services.dart';
+import '../my_pocket_class.dart';
 
-class NameForm extends StatefulWidget {
+class MoneyForm extends StatefulWidget {
   @override
-  _NameFormState createState() => _NameFormState();
+  _MoneyFormState createState() => _MoneyFormState();
 }
 
-class _NameFormState extends State<NameForm> {
+class _MoneyFormState extends State<MoneyForm> {
   final nameFormController = TextEditingController();
+  final moneyFormController = TextEditingController();
+  String name = '';
+  double currentMoney = 0;
+
+  bool validateName = false;
+  bool validateMoney = false;
+
+  Pocket createPocket(bool isFavourited) {
+    return Pocket(name, currentMoney, isFavourited);
+  }
+
+  void setPocketMoney() {
+    String currentMoneyString = moneyFormController.text;
+    var cur = double.tryParse(currentMoneyString);
+    this.setState(() {
+      cur != null ? currentMoney = cur : currentMoney = 0;
+    });
+  }
 
   void setPocketName() {
-    store.set("pocketName", nameFormController.text);
+    String pocketName = nameFormController.text;
+    this.setState(() {
+      name = pocketName;
+    });
   }
 
   @override
   void dispose() {
     nameFormController.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 350,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 35, bottom: 16),
-            child: Text(
-              "Pocket Name",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
-          ),
-          TextFormField(
-            maxLength: 12,
-            style: TextStyle(fontSize: 20.0, color: Colors.black),
-            controller: nameFormController,
-            onChanged: (text) =>
-                {setPocketName(), print("NameFormText = $text")},
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.teal)),
-              // icon: Icon(Icons.credit_card),
-              fillColor: Colors.white,
-              hintText: 'Enter Pocket Name',
-              // labelText: 'Pocket Name',
-            ),
-            validator: (String value) {
-              return value.isEmpty ? 'You should enter pocket name.' : null;
-            },
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class InitialMoneyForm extends StatefulWidget {
-  @override
-  _InitialMoneyFormState createState() => _InitialMoneyFormState();
-}
-
-class _InitialMoneyFormState extends State<InitialMoneyForm> {
-  final moneyFormController = TextEditingController();
-
-  void setPocketMoney() {
-    String initialMoney = moneyFormController.text;
-    store.set("initialMoney", initialMoney);
-  }
-
-  @override
-  void dispose() {
     moneyFormController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 350,
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(top: 45, bottom: 16),
-            child: Text(
-              "Initial Money",
-              style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-            ),
+    return Column(
+      children: [
+        Container(
+          //Name
+          width: 350,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 35, bottom: 16),
+                child: Text(
+                  "Pocket Name",
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                ),
+              ),
+              TextFormField(
+                maxLength: 12,
+                style: TextStyle(fontSize: 20.0, color: Colors.black),
+                controller: nameFormController,
+                onChanged: (text) => {
+                  setPocketName(),
+                  this.setState(() {
+                    validateName = false;
+                  }),
+                },
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.teal)),
+                  // icon: Icon(Icons.credit_card),
+                  fillColor: Colors.white,
+                  hintText: 'Enter Pocket Name',
+                  errorText:
+                      validateName == true ? 'Name must not be empty.' : null,
+                  errorStyle: TextStyle(fontSize: 18),
+                  helperStyle: TextStyle(fontSize: 18),
+                ),
+              ),
+            ],
           ),
-          TextFormField(
-            style: TextStyle(fontSize: 20.0, color: Colors.black),
-            controller: moneyFormController,
-            onChanged: (text) =>
-                {setPocketMoney(), print("MoneyFormText = $text")},
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Colors.teal)),
-              // icon: Icon(Icons.credit_card),
-              fillColor: Colors.white,
-              hintText: 'Enter Initial Money',
-              // labelText: 'Pocket Name',
-            ),
-            validator: (String value) {
-              return value.isEmpty
-                  ? 'You should enter your initail money.'
-                  : null;
-            },
+        ),
+        Container(
+          //Money
+          width: 350,
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.only(top: 45, bottom: 16),
+                child: Text(
+                  "Initial Money",
+                  style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                ),
+              ),
+              TextFormField(
+                keyboardType: TextInputType.number,
+                style: TextStyle(fontSize: 20.0, color: Colors.black),
+                controller: moneyFormController,
+                onChanged: (text) => {
+                  setPocketMoney(),
+                  this.setState(() {
+                    validateMoney = false;
+                  }),
+                },
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Colors.teal)),
+                  // icon: Icon(Icons.credit_card),
+                  fillColor: Colors.white,
+                  hintText: 'Enter Initial Money',
+                  errorText: validateMoney == true
+                      ? 'Initial money must not be empty or NaN'
+                      : null,
+                  errorStyle: TextStyle(fontSize: 18),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(top: 50),
+                child: RaisedButton(
+                  onPressed: () => {
+                    this.setState(() {
+                      moneyFormController.text.isEmpty ||
+                              (double.tryParse(moneyFormController.text) ==
+                                  null)
+                          ? validateMoney = true
+                          : validateMoney = false;
+                      nameFormController.text.isEmpty
+                          ? validateName = true
+                          : validateName = false;
+                    }),
+                    if (!validateName && !validateMoney)
+                      {
+                        pockets.add(createPocket(false)),
+                        Navigator.of(context).pop(),
+                      }
+                  },
+                  textColor: Colors.black,
+                  padding: const EdgeInsets.all(0.0),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      color: Colors.green,
+                    ),
+                    padding: const EdgeInsets.all(10.0),
+                    child: const Text('Create Pocket',
+                        style: TextStyle(fontSize: 30)),
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
-      ),
+        )
+      ],
     );
   }
 }

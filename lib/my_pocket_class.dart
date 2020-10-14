@@ -1,8 +1,8 @@
 class Pocket {
   final String name;
-  double initialMoney;
   double currentMoney;
-  Pocket(this.name, this.initialMoney, this.currentMoney);
+  bool isFavourited = false;
+  Pocket(this.name, this.currentMoney, this.isFavourited);
 }
 
 List<Pocket> pockets = [];
