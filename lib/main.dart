@@ -5,6 +5,8 @@ import 'package:my_ledger_app/presentation/my_pocket.dart';
 import 'package:my_ledger_app/my_pocket_class.dart';
 import 'package:my_ledger_app/config/routes.dart';
 
+import 'presentation/income_expense.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -22,6 +24,7 @@ class MyApp extends StatelessWidget {
       ),
       onGenerateRoute: _registerRouteWithParameters,
       // home: MyHomePage(title: 'Flutter Demo Home Page'),
+      // home: Income(),
       home: MyPocket(),
       // home: AddPocketPage(),
       // home: Interface(
@@ -41,6 +44,13 @@ Route _registerRouteWithParameters(RouteSettings settings) {
   if (settings.name == AppRoutes.interface) {
     return MaterialPageRoute(builder: (context) {
       return Interface(pocket: pocket);
+    });
+  }
+  if (settings.name == AppRoutes.incomeExpense) {
+    return MaterialPageRoute(builder: (context) {
+      return Income(
+        pocket: pocket,
+      );
     });
   }
   return null;

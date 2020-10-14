@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_ledger_app/my_pocket_class.dart';
+import 'package:my_ledger_app/config/routes.dart';
 
 class Interface extends StatefulWidget {
   final Pocket pocket;
@@ -66,7 +67,7 @@ class _InterfaceState extends State<Interface> {
               padding: EdgeInsets.only(left: 30, right: 30, bottom: 30),
               child: Container(
                 width: 400,
-                height: 350,
+                height: 270,
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   // border: Border.all(
@@ -87,7 +88,12 @@ class _InterfaceState extends State<Interface> {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 RaisedButton(
-                  onPressed: () => {},
+                  onPressed: () => {
+                    // Navigator.of(context).pop(),
+                    Navigator.of(context)
+                        .pushNamed(AppRoutes.incomeExpense, arguments: pocket)
+                        .then((value) => this.setState(() {}))
+                  },
                   textColor: Colors.black,
                   child: Container(
                     width: 150,
