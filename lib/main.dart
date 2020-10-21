@@ -17,11 +17,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        fontFamily: 'NeutraText',
-        // fontFamily: 'Montserrat',
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
+          fontFamily: 'NeutraText',
+          // fontFamily: 'Montserrat',
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
       onGenerateRoute: _registerRouteWithParameters,
       // home: MyHomePage(title: 'Flutter Demo Home Page'),
       // home: Income(),

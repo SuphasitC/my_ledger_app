@@ -4,9 +4,6 @@ import 'package:my_ledger_app/my_pocket_class.dart';
 import 'package:my_ledger_app/presentation/pocket_list_view.dart';
 
 import '../my_pocket_class.dart';
-import '../my_pocket_class.dart';
-import '../my_pocket_class.dart';
-import '../my_pocket_class.dart';
 
 class MyPocket extends StatefulWidget {
   MyPocket({Key key}) : super(key: key);
@@ -16,9 +13,11 @@ class MyPocket extends StatefulWidget {
 }
 
 class _MyPocketState extends State<MyPocket> {
+  refresh() => {this.setState(() {})};
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text('My Pocket'),
       ),
@@ -90,118 +89,86 @@ class _MyPocketState extends State<MyPocket> {
           mainAxisAlignment: MainAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: EdgeInsets.only(left: 10, top: 20),
+              padding: EdgeInsets.only(left: 30, top: 30),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
-                  "My Favourite " +
-                      '(' +
-                      favouritePockets.length.toString() +
-                      ')',
-                  style: TextStyle(fontSize: 35.0, fontWeight: FontWeight.bold),
+                  "My Favourite ",
+                  style: TextStyle(
+                      fontSize: 35.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
                 ),
               ),
             ),
             isNotEmpty(favouritePockets)
-                ? Expanded(
-                    child: ListView.builder(
-                      itemCount: pockets.length,
-                      itemBuilder: (context, index) => Card(
-                          color: Colors.orange[300],
-                          child: ListTile(
-                            title: Text(
-                              pockets[index].name,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 30.0,
-                                shadows: [
-                                  Shadow(
-                                      offset: Offset(-1.5, -1.5),
-                                      color: Colors.black),
-                                  Shadow(
-                                      offset: Offset(1.5, -1.5),
-                                      color: Colors.black),
-                                  Shadow(
-                                      offset: Offset(1.5, 1.5),
-                                      color: Colors.black),
-                                  Shadow(
-                                      offset: Offset(-1.5, 1.5),
-                                      color: Colors.black),
-                                ],
-                              ),
-                            ),
-                            trailing: Text(
-                              pockets[index].currentMoney.toString(),
-                              textScaleFactor: 2.0,
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontWeight: FontWeight.bold,
-                                shadows: [
-                                  Shadow(
-                                      offset: Offset(-1.5, -1.5),
-                                      color: Colors.black),
-                                  Shadow(
-                                      offset: Offset(1.5, -1.5),
-                                      color: Colors.black),
-                                  Shadow(
-                                      offset: Offset(1.5, 1.5),
-                                      color: Colors.black),
-                                  Shadow(
-                                      offset: Offset(-1.5, 1.5),
-                                      color: Colors.black),
-                                ],
-                              ),
-                            ),
-                            onTap: () => {
-                              // Navigator.of(context).pop(),
-                              Navigator.of(context).pushNamed(
-                                  AppRoutes.interface,
-                                  arguments: pockets[index])
-                            },
-                          )),
-                    ),
+                ? PocketListTile(
+                    index: 0,
+                    refreshState: refresh,
+                    pocketColor: favouritePockets[0].color,
                   )
+
+                // Expanded(
+                //     child: ListView.builder(
+                //         itemCount: favouritePockets.length,
+                //         itemBuilder: (context, index) => PocketListTile(
+                //               index: index,
+                //               refreshState: refresh,
+                //             )),
+                //   )
+
+                // : Padding(
+                //     padding: EdgeInsets.only(top: 10, left: 10, right: 10),
+                //     child: Container(
+                //       decoration: BoxDecoration(
+                //         border: Border.all(
+                //           width: 3,
+                //           color: Colors.red[500],
+                //         ),
+                //         borderRadius: BorderRadius.all(Radius.circular(20)),
+                //         // color: Colors.red[400],
+                //       ),
+                //       alignment: Alignment.center,
+                //       width: 400,
+                //       height: 80,
+                //       child: RawMaterialButton(
+                //         onPressed: () => {},
+                //         elevation: 2.0,
+                //         fillColor: Colors.white,
+                //         child: Icon(
+                //           Icons.add,
+                //           size: 35.0,
+                //         ),
+                //         padding: EdgeInsets.all(15.0),
+                //         shape: CircleBorder(),
+                //       ),
+                //     ),
+                //   ),
                 : Padding(
                     padding: EdgeInsets.only(top: 10, left: 10, right: 10),
                     child: Container(
                       decoration: BoxDecoration(
                         border: Border.all(
-                          width: 3,
                           color: Colors.red[500],
+                          width: 3,
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(20)),
-                        // color: Colors.red[400],
+                        // color: Color(0xFFE9765B),
                       ),
-                      alignment: Alignment.center,
                       width: 400,
-                      height: 80,
-                      child: RawMaterialButton(
-                        onPressed: () => {},
-                        elevation: 2.0,
-                        fillColor: Colors.white,
-                        child: Icon(
-                          Icons.add,
-                          size: 35.0,
-                        ),
-                        padding: EdgeInsets.all(15.0),
-                        shape: CircleBorder(),
-                      ),
+                      height: 120,
                     ),
                   ),
-
-            // Text(
-            //   "All " + '(' + pockets.length.toString() + ')',
-            //   style:
-            //       TextStyle(fontSize: 35.0, fontWeight: FontWeight.bold),
-            //   // textAlign: TextAlign.left,
-            // ),
             Padding(
-              padding: EdgeInsets.only(left: 10, top: 20),
+              padding: EdgeInsets.only(left: 30, top: 30),
               child: Align(
                 alignment: Alignment.centerLeft,
                 child: Text(
                   "All " + '(' + pockets.length.toString() + ')',
-                  style: TextStyle(fontSize: 35.0, fontWeight: FontWeight.bold),
+                  style: TextStyle(
+                      fontSize: 35.0,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
                 ),
               ),
             ),
@@ -209,25 +176,27 @@ class _MyPocketState extends State<MyPocket> {
                 ? Expanded(
                     child: ListView.builder(
                         itemCount: pockets.length,
-                        itemBuilder: (context, index) =>
-                            PocketListTile(index: index)),
+                        itemBuilder: (context, index) => PocketListTile(
+                              index: index,
+                              refreshState: refresh,
+                              pocketColor: pockets[index].color,
+                            )),
                   )
-                : Container(
-                    width: 50,
-                    height: 50,
-                    child: Text(''),
+                : Padding(
+                    padding: EdgeInsets.only(top: 10, left: 10, right: 10),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.red[500],
+                          width: 3,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(20)),
+                        // color: Color(0xFFE9765B),
+                      ),
+                      width: 400,
+                      height: 120,
+                    ),
                   ),
-            // RawMaterialButton(
-            //   onPressed: () {},
-            //   elevation: 2.0,
-            //   fillColor: Colors.white,
-            //   child: Icon(
-            //     Icons.pause,
-            //     size: 35.0,
-            //   ),
-            //   padding: EdgeInsets.all(15.0),
-            //   shape: CircleBorder(),
-            // )
           ],
         ),
       ),

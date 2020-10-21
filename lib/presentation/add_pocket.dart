@@ -8,6 +8,7 @@ class AddPocketPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text('Add Pocket'),
       ),

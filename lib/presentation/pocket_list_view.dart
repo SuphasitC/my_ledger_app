@@ -5,17 +5,24 @@ import '../my_pocket_class.dart';
 
 class PocketListTile extends StatefulWidget {
   final int index;
-  PocketListTile({Key key, this.index}) : super(key: key);
+  final Function refreshState;
+  final Color pocketColor;
+  PocketListTile({Key key, this.index, this.refreshState, this.pocketColor})
+      : super(key: key);
   @override
   _PocketListTileState createState() => _PocketListTileState();
 }
 
 class _PocketListTileState extends State<PocketListTile> {
   int index;
+  Function refreshState;
+  Color pocketColor;
   @override
   void initState() {
     super.initState();
     index = widget.index;
+    refreshState = widget.refreshState;
+    pocketColor = widget.pocketColor;
   }
 
   @override
@@ -29,7 +36,8 @@ class _PocketListTileState extends State<PocketListTile> {
               width: 3,
             ),
             borderRadius: BorderRadius.all(Radius.circular(20)),
-            color: Color(0xFFE9765B),
+            // color: Color(0xFFE9765B),
+            color: pockets[index].color,
           ),
           // alignment: Alignment.center,
           width: 400,
@@ -75,15 +83,78 @@ class _PocketListTileState extends State<PocketListTile> {
               ),
               Container(
                 width: 200,
-                alignment: Alignment.bottomRight,
+                alignment: Alignment.bottomLeft,
                 child: RaisedButton(
-                  color: Color(0xFFE9765B),
-                  onPressed: () => {},
+                  color: pocketColor,
+                  onPressed: () => {
+                    // print("pocketColor = " + pocketColor.toString()),
+                    if (!favouritePockets.contains(pockets[index]))
+                      {
+                        if (favouritePockets.length == 0)
+                          {
+                            favouritePockets.add(pockets[index]),
+                            refreshState(),
+                          }
+                        else
+                          {
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text(
+                                    "Cannot pin to Favourite",
+                                    style: TextStyle(fontSize: 25),
+                                  ),
+                                  content: Text(
+                                    "Favourite pocket can have only one pocket!",
+                                    style: TextStyle(fontSize: 18),
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      child: Text("OK"),
+                                      onPressed: () =>
+                                          {Navigator.of(context).pop()},
+                                    ),
+                                  ],
+                                );
+                              },
+                            )
+                          }
+                      }
+                    else
+                      {
+                        showDialog(
+                          context: context,
+                          builder: (BuildContext context) {
+                            return AlertDialog(
+                              title: Text(
+                                "Cannot pin to Favourite",
+                                style: TextStyle(fontSize: 25),
+                              ),
+                              content: Text(
+                                "This pocket is already in Favourite list!",
+                                style: TextStyle(fontSize: 18),
+                                textAlign: TextAlign.center,
+                              ),
+                              actions: <Widget>[
+                                FlatButton(
+                                  child: Text("OK"),
+                                  onPressed: () =>
+                                      {Navigator.of(context).pop()},
+                                ),
+                              ],
+                            );
+                          },
+                        )
+                      }
+                  },
                   child: Row(
                     children: <Widget>[
                       Text(
                         "Pin to Favourite ",
                         style: TextStyle(color: Colors.white, fontSize: 20),
+                        textAlign: TextAlign.center,
                       ),
                       Icon(
                         Icons.star,

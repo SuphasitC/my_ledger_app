@@ -177,7 +177,9 @@ class _IncomeState extends State<Income> {
                 onPressed: () => {
                   this.setState(() {
                     moneyFormController.text.isEmpty ||
-                            (double.tryParse(moneyFormController.text) == null)
+                            (double.tryParse(moneyFormController.text) ==
+                                    null ||
+                                double.tryParse(moneyFormController.text) < 0)
                         ? validate = true
                         : validate = false;
                   }),
@@ -186,7 +188,7 @@ class _IncomeState extends State<Income> {
                       moneyValue = double.parse(moneyFormController.text),
                       if (type == 'Expense')
                         {
-                          if (pocket.currentMoney - moneyValue > 0)
+                          if (pocket.currentMoney - moneyValue >= 0)
                             {
                               pocket.currentMoney -= moneyValue,
                               Navigator.of(context).pop(),

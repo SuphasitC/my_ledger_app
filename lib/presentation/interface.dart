@@ -22,6 +22,7 @@ class _InterfaceState extends State<Interface> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text('Pocket: ' + widget.pocket.name.toString()),
       ),
@@ -33,7 +34,7 @@ class _InterfaceState extends State<Interface> {
               padding: EdgeInsets.only(top: 30),
               child: Text(
                 'Pocket Balance',
-                style: TextStyle(fontSize: 30),
+                style: TextStyle(fontSize: 30, color: Colors.white),
               ),
             ),
             Padding(
@@ -57,7 +58,7 @@ class _InterfaceState extends State<Interface> {
                     alignment: Alignment.center,
                     child: Text(
                       this.pocket.currentMoney.toString() + " Baht",
-                      style: TextStyle(fontSize: 30, color: Colors.black),
+                      style: TextStyle(fontSize: 30, color: Colors.white),
                     ),
                   ),
                 ],
