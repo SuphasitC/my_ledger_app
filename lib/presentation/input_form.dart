@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
-import 'package:my_ledger_app/presentation/color_picker.dart';
 import '../my_pocket_class.dart';
 
 class MoneyForm extends StatefulWidget {
@@ -85,7 +84,6 @@ class _MoneyFormState extends State<MoneyForm> {
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.white),
-                    // borderRadius: BorderRadius.circular(25.7),
                   ),
                   border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.teal)),
@@ -163,46 +161,45 @@ class _MoneyFormState extends State<MoneyForm> {
                       color: Colors.white),
                 ),
               ),
-              RaisedButton(
-                elevation: 3.0,
-                onPressed: () => {
-                  showDialog(
-                    context: context,
-                    child: AlertDialog(
-                      title: const Text('Pick a color!'),
-                      content: SingleChildScrollView(
-                        child: BlockPicker(
-                          pickerColor: pocketColor,
-                          onColorChanged: changeColor,
+              Container(
+                width: 50,
+                height: 50,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 3,
+                  ),
+                  // borderRadius: BorderRadius.all(Radius.circular(20)),
+                  color: pocketColor,
+                ),
+                child: RaisedButton(
+                  color: pocketColor,
+                  elevation: 3.0,
+                  onPressed: () => {
+                    showDialog(
+                      context: context,
+                      child: AlertDialog(
+                        title: const Text('Pick a color!'),
+                        content: SingleChildScrollView(
+                          child: BlockPicker(
+                            pickerColor: pocketColor,
+                            onColorChanged: changeColor,
+                          ),
                         ),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: const Text('Select'),
+                            onPressed: () {
+                              setState(() => {});
+                              Navigator.of(context).pop();
+                            },
+                          ),
+                        ],
                       ),
-                      actions: <Widget>[
-                        FlatButton(
-                          child: const Text('Select'),
-                          onPressed: () {
-                            setState(() => {});
-                            Navigator.of(context).pop();
-                          },
-                        ),
-                      ],
-                    ),
-                  )
-                  // showDialog(
-                  //   context: context,
-                  //   builder: (BuildContext context) {
-                  //     return AlertDialog(
-                  //       title: Text('Select a color'),
-                  //       content: SingleChildScrollView(
-                  //         child: BlockPicker(
-                  //           pickerColor: pocketColor,
-                  //           onColorChanged: changeColor,
-                  //         ),
-                  //       ),
-                  //     );
-                  //   },
-                  // ),
-                },
-              )
+                    )
+                  },
+                ),
+              ),
             ],
           ),
         ),

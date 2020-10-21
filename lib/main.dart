@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_ledger_app/presentation/add_pocket.dart';
+import 'package:my_ledger_app/presentation/edit_list_tile.dart';
 import 'package:my_ledger_app/presentation/interface.dart';
 import 'package:my_ledger_app/presentation/my_pocket.dart';
 import 'package:my_ledger_app/my_pocket_class.dart';
@@ -17,11 +18,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-          fontFamily: 'NeutraText',
-          // fontFamily: 'Montserrat',
-          primarySwatch: Colors.blue,
-          visualDensity: VisualDensity.adaptivePlatformDensity,
-          ),
+        fontFamily: 'NeutraText',
+        // fontFamily: 'Montserrat',
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
       onGenerateRoute: _registerRouteWithParameters,
       // home: MyHomePage(title: 'Flutter Demo Home Page'),
       // home: Income(),
@@ -51,6 +52,11 @@ Route _registerRouteWithParameters(RouteSettings settings) {
       return Income(
         pocket: pocket,
       );
+    });
+  }
+  if (settings.name == AppRoutes.editListTile) {
+    return MaterialPageRoute(builder: (context) {
+      return EditListTile(pocket: pocket);
     });
   }
   return null;

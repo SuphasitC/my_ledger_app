@@ -3,4 +3,5 @@ class AppRoutes {
   static const addPocket = '/add_pocket';
   static const interface = '/interface';
   static const incomeExpense = '/income_expense';
+  static const editListTile = '/edit_list_tile';
 }

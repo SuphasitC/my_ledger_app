@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:my_ledger_app/my_pocket_class.dart';
-import 'package:my_ledger_app/presentation/drop_down_currencies.dart';
 import '../my_pocket_class.dart';
-import 'drop_down_currencies.dart';
 
 class Income extends StatefulWidget {
   Pocket pocket;
@@ -39,6 +37,7 @@ class _IncomeState extends State<Income> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: Text('Income'),
       ),
@@ -60,7 +59,7 @@ class _IncomeState extends State<Income> {
                         style: TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
-                          // color: Colors.red[400],
+                          color: Colors.white,
                         ),
                         // textAlign: TextAlign.left,
                       ),
@@ -68,14 +67,19 @@ class _IncomeState extends State<Income> {
                   ),
                   TextFormField(
                     keyboardType: TextInputType.number,
-                    style: TextStyle(fontSize: 20.0, color: Colors.black),
+                    style: TextStyle(fontSize: 20.0, color: Colors.white),
                     controller: moneyFormController,
                     onChanged: (text) => {},
                     decoration: InputDecoration(
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                        // borderRadius: BorderRadius.circular(25.7),
+                      ),
                       border: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.teal)),
                       // icon: Icon(Icons.credit_card),
                       fillColor: Colors.white,
+                      hintStyle: TextStyle(color: Colors.grey),
                       hintText: 'Money Value',
                       errorText: validate == true
                           ? 'Money must not be empty, NaN or minus'
@@ -88,9 +92,11 @@ class _IncomeState extends State<Income> {
                     child: Padding(
                       padding: const EdgeInsets.only(top: 35, bottom: 10),
                       child: Text(
-                        "Choose Type*",
+                        "Income or Expense*",
                         style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold),
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
                         // textAlign: TextAlign.left,
                       ),
                     ),
@@ -101,7 +107,7 @@ class _IncomeState extends State<Income> {
                     width: 350,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Colors.grey,
+                        color: Colors.white,
                         width: 1,
                       ),
                       borderRadius: BorderRadius.all(Radius.circular(10)),
@@ -109,16 +115,12 @@ class _IncomeState extends State<Income> {
                     child: Padding(
                       padding: EdgeInsets.all(5.0),
                       child: DropdownButton<String>(
+                        dropdownColor: Colors.black54,
                         isExpanded: true,
                         value: type,
-                        // icon: Icon(Icons.arrow_downward),
                         iconSize: 24,
                         elevation: 16,
-                        style: TextStyle(color: Colors.black),
-                        // underline: Container(
-                        //   height: 1,
-                        //   color: Colors.grey,
-                        // ),
+                        style: TextStyle(color: Colors.white),
                         onChanged: (String type) {
                           setState(() {
                             this.type = type;
@@ -146,7 +148,9 @@ class _IncomeState extends State<Income> {
                       child: Text(
                         "Note",
                         style: TextStyle(
-                            fontSize: 30, fontWeight: FontWeight.bold),
+                            fontSize: 30,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
                         // textAlign: TextAlign.left,
                       ),
                     ),
@@ -156,11 +160,18 @@ class _IncomeState extends State<Income> {
                     controller: myTextController,
                     onChanged: (text) => {},
                     decoration: InputDecoration(
-                      icon: Icon(Icons.note),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.white),
+                      ),
+                      icon: Icon(
+                        Icons.note,
+                        color: Colors.white,
+                      ),
                       border: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.teal)),
                       // icon: Icon(Icons.credit_card),
                       fillColor: Colors.white,
+                      hintStyle: TextStyle(color: Colors.grey),
                       hintText: 'Write your note (Optional)',
                       errorText: null,
                       // validateName == true ? 'Name must not be empty.' : null,
@@ -224,13 +235,14 @@ class _IncomeState extends State<Income> {
                     }
                 },
                 textColor: Colors.black,
-                padding: const EdgeInsets.all(0.0),
+                padding: EdgeInsets.all(0.0),
                 child: Container(
-                  decoration: const BoxDecoration(
+                  decoration: BoxDecoration(
                     color: Colors.green,
+                    shape: BoxShape.rectangle,
                   ),
-                  padding: const EdgeInsets.all(10.0),
-                  child: const Text('Finish', style: TextStyle(fontSize: 30)),
+                  padding: EdgeInsets.all(10.0),
+                  child: Text('Finish', style: TextStyle(fontSize: 30)),
                 ),
               ),
             ),

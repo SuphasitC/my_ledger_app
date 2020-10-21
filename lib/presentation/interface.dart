@@ -58,7 +58,19 @@ class _InterfaceState extends State<Interface> {
                     alignment: Alignment.center,
                     child: Text(
                       this.pocket.currentMoney.toString() + " Baht",
-                      style: TextStyle(fontSize: 30, color: Colors.white),
+                      style: TextStyle(
+                        fontSize: 30,
+                        color: Colors.white,
+                        shadows: [
+                          Shadow(
+                              offset: Offset(-1.5, -1.5), color: Colors.black),
+                          Shadow(
+                              offset: Offset(1.5, -1.5), color: Colors.black),
+                          Shadow(offset: Offset(1.5, 1.5), color: Colors.black),
+                          Shadow(
+                              offset: Offset(-1.5, 1.5), color: Colors.black),
+                        ],
+                      ),
                     ),
                   ),
                 ],
@@ -80,7 +92,16 @@ class _InterfaceState extends State<Interface> {
                 ),
                 child: Text(
                   'Hello',
-                  style: TextStyle(fontSize: 25, color: Colors.white),
+                  style: TextStyle(
+                    fontSize: 25,
+                    color: Colors.white,
+                    shadows: [
+                      Shadow(offset: Offset(-1.5, -1.5), color: Colors.black),
+                      Shadow(offset: Offset(1.5, -1.5), color: Colors.black),
+                      Shadow(offset: Offset(1.5, 1.5), color: Colors.black),
+                      Shadow(offset: Offset(-1.5, 1.5), color: Colors.black),
+                    ],
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),
@@ -106,7 +127,9 @@ class _InterfaceState extends State<Interface> {
                     ),
                     child: Text(
                       'Income\nExpense',
-                      style: TextStyle(fontSize: 25),
+                      style: TextStyle(
+                        fontSize: 25,
+                      ),
                       textAlign: TextAlign.center,
                     ),
                   ),
