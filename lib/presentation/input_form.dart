@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:my_ledger_app/pocket_observer.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../my_pocket_class.dart';
 
 class MoneyForm extends StatefulWidget {
@@ -12,16 +14,20 @@ class _MoneyFormState extends State<MoneyForm> {
   final nameFormController = TextEditingController();
   final moneyFormController = TextEditingController();
 
+//PocketAttr
   String name = '';
   double currentMoney = 0;
+  Color pocketColor = Color(0xFFE9765B);
+  String colorString;
+  String generatedID;
 
   bool validateName = false;
   bool validateMoney = false;
 
-  Color pocketColor = Color(0xFFE9765B);
-
   Pocket createPocket(Color pckColor) {
-    return Pocket(name, currentMoney, false, pckColor);
+    generatedID = generatePocketID();
+    print("Create Pocket, GeneratedID = " + generatedID);
+    return Pocket(name, currentMoney, false, pckColor, [], generatedID);
   }
 
   void changeColor(Color color) {
@@ -62,7 +68,7 @@ class _MoneyFormState extends State<MoneyForm> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 35, bottom: 16),
+                padding: EdgeInsets.only(top: 35, bottom: 16),
                 child: Text(
                   "Pocket Name",
                   style: TextStyle(
@@ -87,14 +93,13 @@ class _MoneyFormState extends State<MoneyForm> {
                   ),
                   border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.teal)),
-                  // icon: Icon(Icons.credit_card),
                   fillColor: Colors.white,
                   hintStyle: TextStyle(color: Colors.grey),
                   hintText: 'Enter Pocket Name',
                   errorText:
                       validateName == true ? 'Name must not be empty.' : null,
                   errorStyle: TextStyle(fontSize: 18),
-                  helperStyle: TextStyle(fontSize: 18),
+                  helperStyle: TextStyle(fontSize: 18, color: Colors.white),
                 ),
               ),
             ],
@@ -106,7 +111,7 @@ class _MoneyFormState extends State<MoneyForm> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 45, bottom: 16),
+                padding: EdgeInsets.only(top: 45, bottom: 16),
                 child: Text(
                   "Initial Money",
                   style: TextStyle(
@@ -128,11 +133,9 @@ class _MoneyFormState extends State<MoneyForm> {
                 decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.white),
-                    // borderRadius: BorderRadius.circular(25.7),
                   ),
                   border: OutlineInputBorder(
                       borderSide: BorderSide(color: Colors.teal)),
-                  // icon: Icon(Icons.credit_card),
                   fillColor: Colors.white,
                   hintStyle: TextStyle(color: Colors.grey),
                   hintText: 'Enter Initial Money',
@@ -152,7 +155,7 @@ class _MoneyFormState extends State<MoneyForm> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.only(top: 45, bottom: 16),
+                padding: EdgeInsets.only(top: 45, bottom: 16),
                 child: Text(
                   "Pocket Color",
                   style: TextStyle(
@@ -169,7 +172,6 @@ class _MoneyFormState extends State<MoneyForm> {
                     color: Colors.white,
                     width: 3,
                   ),
-                  // borderRadius: BorderRadius.all(Radius.circular(20)),
                   color: pocketColor,
                 ),
                 child: RaisedButton(
@@ -179,7 +181,7 @@ class _MoneyFormState extends State<MoneyForm> {
                     showDialog(
                       context: context,
                       child: AlertDialog(
-                        title: const Text('Pick a color!'),
+                        title: Text('Pick a color!'),
                         content: SingleChildScrollView(
                           child: BlockPicker(
                             pickerColor: pocketColor,
@@ -188,7 +190,10 @@ class _MoneyFormState extends State<MoneyForm> {
                         ),
                         actions: <Widget>[
                           FlatButton(
-                            child: const Text('Select'),
+                            child: Text(
+                              'Select',
+                              style: TextStyle(fontSize: 40),
+                            ),
                             onPressed: () {
                               setState(() => {});
                               Navigator.of(context).pop();
@@ -220,19 +225,34 @@ class _MoneyFormState extends State<MoneyForm> {
               }),
               if (!validateName && !validateMoney)
                 {
-                  pockets.add(createPocket(pocketColor)),
+                  this.setState(() {}),
+                  colorString = pocketColor.toString(),
+                  colorString = colorString.substring(
+                      colorString.indexOf('x') + 1, colorString.length - 2),
+                  context
+                      .bloc<PocketListCubit>()
+                      .addPocket(createPocket(pocketColor)),
+                  databaseReference
+                      .collection("pockets")
+                      .document(generatedID)
+                      .setData({
+                    "name": nameFormController.text,
+                    "isFavourited": false,
+                    "currentMoney": double.parse(moneyFormController.text),
+                    "color": colorString,
+                    "id": generatedID,
+                  }),
                   Navigator.of(context).pop(),
                 }
             },
             textColor: Colors.black,
-            padding: const EdgeInsets.all(0.0),
+            padding: EdgeInsets.all(0.0),
             child: Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: Colors.green,
               ),
-              padding: const EdgeInsets.all(10.0),
-              child:
-                  const Text('Create Pocket', style: TextStyle(fontSize: 30)),
+              padding: EdgeInsets.all(10.0),
+              child: Text('Create Pocket', style: TextStyle(fontSize: 30)),
             ),
           ),
         ),

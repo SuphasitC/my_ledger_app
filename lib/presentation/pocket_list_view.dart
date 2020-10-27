@@ -29,6 +29,22 @@ class _PocketListTileState extends State<PocketListTile> {
     myFav = widget.myFav;
   }
 
+  String moneyString(double money) {
+    double displ;
+    if (money < 1000) {
+      return money.toString();
+    } else if (money < 1000000) {
+      displ = money / 1000;
+      return displ.toStringAsFixed(2) + "K";
+    } else if (money < 10000000) {
+      displ = money / 1000000;
+      return displ.toStringAsFixed(2) + "M";
+    } else {
+      displ = money / 1000000000;
+      return displ.toStringAsFixed(2) + "B";
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return myFav
@@ -65,10 +81,10 @@ class _PocketListTileState extends State<PocketListTile> {
                       ),
                     ),
                     trailing: Text(
-                      favouritePockets[0].currentMoney.toString(),
+                      moneyString(favouritePockets[0].currentMoney),
                       textScaleFactor: 1.25,
                       style: TextStyle(
-                        fontSize: 40.0,
+                        fontSize: 32.5,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         shadows: [
@@ -96,6 +112,11 @@ class _PocketListTileState extends State<PocketListTile> {
                     alignment: Alignment.bottomLeft,
                     child: GestureDetector(
                       onTap: () => {
+                        databaseReference
+                            .collection("pockets")
+                            .document(favouritePockets[index].pocketID)
+                            .updateData({"isFavourited": false}),
+                        pockets[index].isFavourited = false,
                         favouritePockets.removeAt(0),
                         this.refreshState(),
                       },
@@ -103,15 +124,6 @@ class _PocketListTileState extends State<PocketListTile> {
                         padding: EdgeInsets.only(left: 15, bottom: 15),
                         child: Row(
                           children: <Widget>[
-                            // Padding(
-                            //   padding: EdgeInsets.only(left: 3),
-                            //   child: Text(
-                            //     "Unpin from Favourite ",
-                            //     style:
-                            //         TextStyle(color: Colors.white, fontSize: 20),
-                            //     textAlign: TextAlign.center,
-                            //   ),
-                            // ),
                             Text(
                               "Unpin from Favourite ",
                               style:
@@ -160,10 +172,10 @@ class _PocketListTileState extends State<PocketListTile> {
                       ),
                     ),
                     trailing: Text(
-                      pockets[index].currentMoney.toString(),
+                      moneyString(pockets[index].currentMoney),
                       textScaleFactor: 1.25,
                       style: TextStyle(
-                        fontSize: 40.0,
+                        fontSize: 32.5,
                         color: Colors.white,
                         fontWeight: FontWeight.bold,
                         shadows: [
@@ -181,7 +193,9 @@ class _PocketListTileState extends State<PocketListTile> {
                       Navigator.of(context)
                           .pushNamed(AppRoutes.interface,
                               arguments: pockets[index])
-                          .then((value) => this.setState(() {}))
+                          .then((value) => this.setState(() {
+                                this.refreshState();
+                              }))
                     },
                   ),
                   Container(
@@ -189,14 +203,17 @@ class _PocketListTileState extends State<PocketListTile> {
                     alignment: Alignment.bottomLeft,
                     child: GestureDetector(
                       onTap: () => {
-                        // print("pocketColor = " + pocketColor.toString()),
                         if (!favouritePockets.contains(pockets[index]))
                           {
-                            if (favouritePockets.length == 0)
+                            if (favouritePockets.isEmpty)
                               {
+                                databaseReference
+                                    .collection("pockets")
+                                    .document(pockets[index].pocketID)
+                                    .updateData({"isFavourited": true}),
                                 pockets[index].isFavourited = true,
                                 favouritePockets.add(pockets[index]),
-                                refreshState(),
+                                this.refreshState(),
                               }
                             else
                               {
@@ -281,8 +298,11 @@ class _PocketListTileState extends State<PocketListTile> {
                       ),
                       onTap: () => {
                         Navigator.of(context)
-                            .pushNamed(AppRoutes.editListTile)
-                            .then((value) => this.setState(() {})),
+                            .pushNamed(AppRoutes.editListTile,
+                                arguments: pockets[index])
+                            .then((value) => this.setState(() {
+                                  this.refreshState();
+                                })),
                       },
                     ),
                   ),
@@ -312,8 +332,24 @@ class _PocketListTileState extends State<PocketListTile> {
                                 FlatButton(
                                   child: Text("Yes"),
                                   onPressed: () => {
+                                    if (pockets[index].isFavourited)
+                                      {
+                                        if (favouritePockets.isNotEmpty)
+                                          {
+                                            favouritePockets.removeAt(0),
+                                            refreshState(),
+                                          }
+                                      },
+                                    databaseReference
+                                        .collection("pockets")
+                                        .document(pockets[index].pocketID)
+                                        .delete(),
+                                    databaseReference
+                                        .collection("notes")
+                                        .document(pockets[index].pocketID)
+                                        .delete(),
                                     pockets.removeAt(index),
-                                    this.refreshState(),
+                                    refreshState(),
                                     Navigator.of(context).pop()
                                   },
                                 ),

@@ -24,11 +24,10 @@ class _InterfaceState extends State<Interface> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
-        title: Text('Pocket: ' + widget.pocket.name.toString()),
+        title: Text('Pocket: ' + pocket.name),
       ),
       body: Center(
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Padding(
               padding: EdgeInsets.only(top: 30),
@@ -38,7 +37,7 @@ class _InterfaceState extends State<Interface> {
               ),
             ),
             Padding(
-              padding: EdgeInsets.all(30.0),
+              padding: EdgeInsets.all(18.0),
               child: Stack(
                 alignment: Alignment.center,
                 children: [
@@ -46,10 +45,6 @@ class _InterfaceState extends State<Interface> {
                     width: 400.0,
                     height: 100.0,
                     decoration: BoxDecoration(
-                      // border: Border.all(
-                      //   color: Colors.black,
-                      //   width: 3,
-                      // ),
                       borderRadius: BorderRadius.all(Radius.circular(12)),
                       color: Colors.orangeAccent,
                     ),
@@ -76,112 +71,170 @@ class _InterfaceState extends State<Interface> {
                 ],
               ),
             ),
-            Padding(
-              padding: EdgeInsets.only(left: 30, right: 30, bottom: 30),
-              child: Container(
-                width: 400,
-                height: 270,
-                alignment: Alignment.center,
-                decoration: BoxDecoration(
-                  // border: Border.all(
-                  //   color: Colors.black,
-                  //   width: 2,
-                  // ),
-                  // borderRadius: BorderRadius.all(Radius.circular(12)),
-                  color: Colors.grey[700],
-                ),
-                child: Text(
-                  'Hello',
-                  style: TextStyle(
-                    fontSize: 25,
-                    color: Colors.white,
-                    shadows: [
-                      Shadow(offset: Offset(-1.5, -1.5), color: Colors.black),
-                      Shadow(offset: Offset(1.5, -1.5), color: Colors.black),
-                      Shadow(offset: Offset(1.5, 1.5), color: Colors.black),
-                      Shadow(offset: Offset(-1.5, 1.5), color: Colors.black),
-                    ],
-                  ),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                RaisedButton(
-                  onPressed: () => {
-                    // Navigator.of(context).pop(),
-                    Navigator.of(context)
-                        .pushNamed(AppRoutes.incomeExpense, arguments: pocket)
-                        .then((value) => this.setState(() {}))
-                  },
-                  textColor: Colors.black,
-                  child: Container(
-                    width: 150,
-                    height: 50,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Colors.lightGreen,
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
-                    ),
-                    child: Text(
-                      'Income\nExpense',
-                      style: TextStyle(
-                        fontSize: 25,
+            pocket.note.isEmpty
+                ? Padding(
+                    padding: EdgeInsets.all(18.0),
+                    child: Container(
+                      alignment: Alignment.center,
+                      width: 400,
+                      height: 350,
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          color: Colors.yellowAccent,
+                          width: 3,
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(12)),
+                        color: Colors.black,
                       ),
-                      textAlign: TextAlign.center,
+                      child: Text(
+                        "There's no transaction now.",
+                        style: TextStyle(color: Colors.white, fontSize: 25),
+                      ),
+                    ),
+                  )
+                : SizedBox(
+                    width: double.infinity,
+                    height: 365,
+                    child: Padding(
+                      padding: EdgeInsets.all(18.0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.yellowAccent,
+                            width: 2,
+                          ),
+                          color: Colors.black,
+                        ),
+                        child: Column(
+                          children: [
+                            Expanded(
+                              child: ListView.builder(
+                                itemCount: pocket.note.length,
+                                itemBuilder: (context, index) => Padding(
+                                  padding: EdgeInsets.only(left: 10, right: 10),
+                                  child: Card(
+                                    color: Colors.black,
+                                    child: ListTile(
+                                      title: Text(
+                                        pocket.note[index].detail,
+                                        style: TextStyle(
+                                          fontSize: 25.0,
+                                          color: Colors.white,
+                                          fontWeight: FontWeight.bold,
+                                          shadows: [
+                                            Shadow(
+                                                offset: Offset(-1.5, -1.5),
+                                                color: Colors.black),
+                                            Shadow(
+                                                offset: Offset(1.5, -1.5),
+                                                color: Colors.black),
+                                            Shadow(
+                                                offset: Offset(1.5, 1.5),
+                                                color: Colors.black),
+                                            Shadow(
+                                                offset: Offset(-1.5, 1.5),
+                                                color: Colors.black),
+                                          ],
+                                        ),
+                                      ),
+                                      trailing: Text(
+                                        pocket.note[index].isIncome
+                                            ? "+ " +
+                                                pocket.note[index].value
+                                                    .toString()
+                                            : "- " +
+                                                pocket.note[index].value
+                                                    .toString(),
+                                        style: TextStyle(
+                                          fontSize: 25.0,
+                                          color: pocket.note[index].isIncome
+                                              ? Colors.green
+                                              : Colors.red,
+                                          fontWeight: FontWeight.bold,
+                                          shadows: [
+                                            Shadow(
+                                                offset: Offset(-1.5, -1.5),
+                                                color: Colors.black),
+                                            Shadow(
+                                                offset: Offset(1.5, -1.5),
+                                                color: Colors.black),
+                                            Shadow(
+                                                offset: Offset(1.5, 1.5),
+                                                color: Colors.black),
+                                            Shadow(
+                                                offset: Offset(-1.5, 1.5),
+                                                color: Colors.black),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
-                  padding: EdgeInsets.all(0.0),
-                ),
-                RaisedButton(
-                  onPressed: () {
-                    showDatePicker(
-                        context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime.utc(1998, DateTime.november, 12),
-                        lastDate: DateTime.utc(2030, DateTime.november, 12));
-                  },
-                  textColor: Colors.black,
-                  padding: EdgeInsets.all(0.0),
-                  child: Container(
-                    width: 150,
-                    height: 50,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: Colors.purple[400],
-                      borderRadius: BorderRadius.all(Radius.circular(8)),
+            Padding(
+              padding: EdgeInsets.only(top: 20, bottom: 20),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  RaisedButton(
+                    onPressed: () => {
+                      Navigator.of(context)
+                          .pushNamed(AppRoutes.incomeExpense, arguments: pocket)
+                          .then((value) => this.setState(() {}))
+                    },
+                    textColor: Colors.black,
+                    child: Container(
+                      width: 150,
+                      height: 70,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.greenAccent,
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                      ),
+                      child: Text(
+                        'Income\nExpense',
+                        style: TextStyle(
+                          fontSize: 25,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                    // padding: EdgeInsets.all(10.0),
-                    child: Text(
-                      'Calendar',
-                      style: TextStyle(fontSize: 25),
-                      textAlign: TextAlign.center,
+                    padding: EdgeInsets.all(0.0),
+                  ),
+                  RaisedButton(
+                    onPressed: () {
+                      showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime.utc(1998, DateTime.november, 12),
+                          lastDate: DateTime.utc(2030, DateTime.november, 12));
+                    },
+                    textColor: Colors.black,
+                    padding: EdgeInsets.all(0.0),
+                    child: Container(
+                      width: 150,
+                      height: 70,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.purple[400],
+                        borderRadius: BorderRadius.all(Radius.circular(8)),
+                      ),
+                      child: Text(
+                        'Calendar',
+                        style: TextStyle(fontSize: 25),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
-                ),
-                // RaisedButton(
-                //   onPressed: () => {},
-                //   textColor: Colors.black,
-                //   child: Container(
-                //     width: 150,
-                //     height: 50,
-                //     alignment: Alignment.center,
-                //     decoration: BoxDecoration(
-                //       color: Colors.redAccent,
-                //       borderRadius: BorderRadius.all(Radius.circular(8)),
-                //     ),
-                //     // padding: EdgeInsets.all(10.0),
-                //     child: Text(
-                //       'Expense',
-                //       style: TextStyle(fontSize: 25),
-                //       textAlign: TextAlign.center,
-                //     ),
-                //   ),
-                // ),
-              ],
-            ),
+                ],
+              ),
+            )
           ],
         ),
       ),

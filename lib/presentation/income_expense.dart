@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:my_ledger_app/config/routes.dart';
 import 'package:my_ledger_app/my_pocket_class.dart';
 import '../my_pocket_class.dart';
+import '../note_list.dart';
 
 class Income extends StatefulWidget {
-  Pocket pocket;
+  final Pocket pocket;
   Income({Key key, this.pocket}) : super(key: key);
 
   @override
@@ -12,12 +14,12 @@ class Income extends StatefulWidget {
 
 class _IncomeState extends State<Income> {
   final moneyFormController = TextEditingController();
-  final myTextController = TextEditingController();
+  final myNoteController = TextEditingController();
   double moneyValue;
   bool validate;
   String type;
   Pocket pocket;
-  // final dropDown = DropDownType();
+  Note note;
 
   @override
   void initState() {
@@ -30,7 +32,7 @@ class _IncomeState extends State<Income> {
 
   @override
   void dispose() {
-    myTextController.dispose();
+    myNoteController.dispose();
     super.dispose();
   }
 
@@ -53,7 +55,7 @@ class _IncomeState extends State<Income> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 35, bottom: 10),
+                      padding: EdgeInsets.only(top: 35, bottom: 10),
                       child: Text(
                         "Value*",
                         style: TextStyle(
@@ -61,7 +63,6 @@ class _IncomeState extends State<Income> {
                           fontWeight: FontWeight.bold,
                           color: Colors.white,
                         ),
-                        // textAlign: TextAlign.left,
                       ),
                     ),
                   ),
@@ -73,11 +74,9 @@ class _IncomeState extends State<Income> {
                     decoration: InputDecoration(
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.white),
-                        // borderRadius: BorderRadius.circular(25.7),
                       ),
                       border: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.teal)),
-                      // icon: Icon(Icons.credit_card),
                       fillColor: Colors.white,
                       hintStyle: TextStyle(color: Colors.grey),
                       hintText: 'Money Value',
@@ -87,17 +86,23 @@ class _IncomeState extends State<Income> {
                       errorStyle: TextStyle(fontSize: 18),
                     ),
                   ),
+                ],
+              ),
+            ),
+            Container(
+              width: 350,
+              child: Column(
+                children: [
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 35, bottom: 10),
+                      padding: EdgeInsets.only(top: 35, bottom: 10),
                       child: Text(
                         "Income or Expense*",
                         style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
-                        // textAlign: TextAlign.left,
                       ),
                     ),
                   ),
@@ -134,56 +139,99 @@ class _IncomeState extends State<Income> {
                               value,
                               style: TextStyle(
                                   fontSize: 18, fontFamily: 'NeutraText'),
-                              // style: TextStyle(fontSize: 18),
                             ),
                           );
                         }).toList(),
                       ),
                     ),
                   ),
+                ],
+              ),
+            ),
+            Container(
+              width: 350,
+              child: Column(
+                children: [
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Padding(
-                      padding: const EdgeInsets.only(top: 35, bottom: 10),
+                      padding: EdgeInsets.only(top: 35, bottom: 10),
                       child: Text(
                         "Note",
                         style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,
                             color: Colors.white),
-                        // textAlign: TextAlign.left,
                       ),
                     ),
                   ),
-                  TextFormField(
-                    style: TextStyle(fontSize: 20.0, color: Colors.black),
-                    controller: myTextController,
-                    onChanged: (text) => {},
-                    decoration: InputDecoration(
-                      enabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Colors.white),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Container(
+                        width: 250,
+                        child: TextFormField(
+                          style: TextStyle(fontSize: 20.0, color: Colors.white),
+                          controller: myNoteController,
+                          onChanged: (text) => {},
+                          decoration: InputDecoration(
+                            enabledBorder: OutlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white),
+                            ),
+                            icon: Icon(
+                              Icons.note,
+                              color: Colors.white,
+                            ),
+                            border: OutlineInputBorder(
+                                borderSide: BorderSide(color: Colors.teal)),
+                            fillColor: Colors.white,
+                            hintStyle: TextStyle(color: Colors.grey),
+                            hintText: 'Write your note (Optional)',
+                            errorText: null,
+                            errorStyle: TextStyle(fontSize: 18),
+                            helperStyle: TextStyle(fontSize: 18),
+                          ),
+                        ),
                       ),
-                      icon: Icon(
-                        Icons.note,
-                        color: Colors.white,
+                      Text(
+                        "or",
+                        style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
-                      border: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.teal)),
-                      // icon: Icon(Icons.credit_card),
-                      fillColor: Colors.white,
-                      hintStyle: TextStyle(color: Colors.grey),
-                      hintText: 'Write your note (Optional)',
-                      errorText: null,
-                      // validateName == true ? 'Name must not be empty.' : null,
-                      errorStyle: TextStyle(fontSize: 18),
-                      helperStyle: TextStyle(fontSize: 18),
-                    ),
+                      GestureDetector(
+                        child: Container(
+                          width: 40,
+                          height: 40,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Colors.white,
+                              width: 2,
+                            ),
+                            borderRadius: BorderRadius.all(Radius.circular(10)),
+                          ),
+                          child: Icon(
+                            Icons.add,
+                            color: Colors.white,
+                          ),
+                        ),
+                        onTap: () => {
+                          Navigator.of(context)
+                              .pushNamed(
+                                AppRoutes.noteList,
+                              )
+                              .then((value) => this.setState(() {
+                                    if (value != null) {
+                                      myNoteController.text = value.toString();
+                                    }
+                                  })),
+                        },
+                      ),
+                    ],
                   ),
                 ],
               ),
             ),
             Padding(
-              padding: EdgeInsets.only(top: 50),
+              padding: EdgeInsets.only(top: 30),
               child: RaisedButton(
                 onPressed: () => {
                   this.setState(() {
@@ -197,41 +245,71 @@ class _IncomeState extends State<Income> {
                   if (!validate)
                     {
                       moneyValue = double.parse(moneyFormController.text),
-                      if (type == 'Expense')
+                      note = Note(
+                        myNoteController.text.isNotEmpty
+                            ? myNoteController.text
+                            : type == 'Income' ? 'Income' : 'Expense',
+                        moneyValue,
+                        type == 'Income' ? true : false,
+                      ),
+                      if (pocket.currentMoney - moneyValue < 0 &&
+                          type == 'Expense')
                         {
-                          if (pocket.currentMoney - moneyValue >= 0)
-                            {
-                              pocket.currentMoney -= moneyValue,
-                              Navigator.of(context).pop(),
-                            }
-                          else
-                            {
-                              showDialog(
-                                  context: context,
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text("Pocket Balance Error"),
-                                      content: Text(
-                                        "Expense amount > Pocket Balance",
-                                        textAlign: TextAlign.center,
-                                      ),
-                                      actions: <Widget>[
-                                        FlatButton(
-                                          child: Text("OK"),
-                                          onPressed: () => {
-                                            Navigator.of(context).pop(),
-                                          },
-                                        ),
-                                      ],
-                                    );
-                                  })
-                            }
+                          showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: Text("Pocket Balance Error"),
+                                  content: Text(
+                                    "Expense amount > Pocket Balance\n(Now Balance = " +
+                                        this.pocket.currentMoney.toString() +
+                                        ")",
+                                    textAlign: TextAlign.center,
+                                  ),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      child: Text("OK"),
+                                      onPressed: () => {
+                                        Navigator.of(context).pop(),
+                                      },
+                                    ),
+                                  ],
+                                );
+                              })
                         }
                       else
                         {
-                          pocket.currentMoney += moneyValue,
+                          if (type == 'Expense')
+                            {
+                              pocket.currentMoney -= moneyValue,
+                            }
+                          else
+                            {
+                              pocket.currentMoney += moneyValue,
+                            },
+                          //currentMoneyChange
+                          databaseReference
+                              .collection("pockets")
+                              .document(pocket.pocketID)
+                              .updateData({
+                            "currentMoney": pocket.currentMoney,
+                          }),
+                          //Add note
+                          databaseReference
+                              .collection("notes")
+                              .document(pocket.pocketID)
+                              .collection("all")
+                              .document()
+                              .setData({
+                            "detail": myNoteController.text.isNotEmpty
+                                ? myNoteController.text
+                                : type == 'Income' ? 'Income' : 'Expense',
+                            "value": moneyValue,
+                            "isIncome": type == 'Income' ? true : false,
+                          }),
+                          pocket.note.add(note),
                           Navigator.of(context).pop(),
-                        },
+                        }
                     }
                 },
                 textColor: Colors.black,
@@ -247,15 +325,9 @@ class _IncomeState extends State<Income> {
               ),
             ),
             Container(
-              //Money
               width: 350,
               child: Column(
-                children: [
-                  // Padding(
-                  //   padding: const EdgeInsets.only(top: 45, bottom: 16),
-                  //   child:
-                  // ),
-                ],
+                children: [],
               ),
             )
           ],

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "388813205657",
+    "firebase_url": "https://my-ledger-app-4ad5c.firebaseio.com",
+    "project_id": "my-ledger-app-4ad5c",
+    "storage_bucket": "my-ledger-app-4ad5c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:388813205657:android:f6b750476d30a22bcbc808",
+        "android_client_info": {
+          "package_name": "com.example.my_ledger_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "388813205657-qq32b998es0pr7uqqnop2tc1jd5ec3gc.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBLxn_toSlOEz6XrKQ45981SAVULOSVLsk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "388813205657-qq32b998es0pr7uqqnop2tc1jd5ec3gc.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

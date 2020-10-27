@@ -14,6 +14,12 @@ class MyPocket extends StatefulWidget {
 
 class _MyPocketState extends State<MyPocket> {
   refresh() => {this.setState(() {})};
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -55,7 +61,6 @@ class _MyPocketState extends State<MyPocket> {
                           width: 3,
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(20)),
-                        // color: Color(0xFFE9765B),
                       ),
                       width: 400,
                       height: 120,
@@ -81,13 +86,14 @@ class _MyPocketState extends State<MyPocket> {
             isNotEmpty(pockets)
                 ? Expanded(
                     child: ListView.builder(
-                        itemCount: pockets.length,
-                        itemBuilder: (context, index) => PocketListTile(
-                              index: index,
-                              refreshState: refresh,
-                              pocketColor: pockets[index].color,
-                              myFav: false,
-                            )),
+                      itemCount: pockets.length,
+                      itemBuilder: (context, index) => PocketListTile(
+                        index: index,
+                        refreshState: refresh,
+                        pocketColor: pockets[index].color,
+                        myFav: false,
+                      ),
+                    ),
                   )
                 : Padding(
                     padding: EdgeInsets.only(top: 10, left: 10, right: 10),
@@ -99,7 +105,6 @@ class _MyPocketState extends State<MyPocket> {
                           width: 3,
                         ),
                         borderRadius: BorderRadius.all(Radius.circular(20)),
-                        // color: Color(0xFFE9765B),
                       ),
                       width: 400,
                       height: 120,
