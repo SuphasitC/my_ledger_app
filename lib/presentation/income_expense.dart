@@ -157,7 +157,7 @@ class _IncomeState extends State<Income> {
                     child: Padding(
                       padding: EdgeInsets.only(top: 35, bottom: 10),
                       child: Text(
-                        "Note",
+                        "Write Your Note",
                         style: TextStyle(
                             fontSize: 30,
                             fontWeight: FontWeight.bold,

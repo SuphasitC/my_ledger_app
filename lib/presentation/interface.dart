@@ -77,7 +77,7 @@ class _InterfaceState extends State<Interface> {
                     child: Container(
                       alignment: Alignment.center,
                       width: 400,
-                      height: 350,
+                      height: 240,
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: Colors.yellowAccent,

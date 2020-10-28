@@ -25,6 +25,7 @@ class MyApp extends StatelessWidget {
     return BlocProvider(
       create: (_) => PocketListCubit(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Ledger App',
         theme: ThemeData(
           fontFamily: 'NeutraText',
