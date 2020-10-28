@@ -289,6 +289,24 @@ class _PocketListTileState extends State<PocketListTile> {
                     ),
                   ),
                   Positioned(
+                    right: 85,
+                    bottom: 15,
+                    child: GestureDetector(
+                      child: Icon(
+                        Icons.account_balance_wallet,
+                        color: Colors.white,
+                      ),
+                      onTap: () => {
+                        Navigator.of(context)
+                            .pushNamed(AppRoutes.incomeExpense,
+                                arguments: pockets[index])
+                            .then((value) => this.setState(() {
+                                  this.refreshState();
+                                })),
+                      },
+                    ),
+                  ),
+                  Positioned(
                     right: 50,
                     bottom: 15,
                     child: GestureDetector(

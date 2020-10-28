@@ -77,7 +77,7 @@ class _InterfaceState extends State<Interface> {
                     child: Container(
                       alignment: Alignment.center,
                       width: 400,
-                      height: 240,
+                      height: 260,
                       decoration: BoxDecoration(
                         border: Border.all(
                           color: Colors.yellowAccent,
@@ -94,7 +94,7 @@ class _InterfaceState extends State<Interface> {
                   )
                 : SizedBox(
                     width: double.infinity,
-                    height: 365,
+                    height: 260,
                     child: Padding(
                       padding: EdgeInsets.all(18.0),
                       child: Container(
